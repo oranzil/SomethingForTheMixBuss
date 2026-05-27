@@ -30,9 +30,9 @@ if(NOT EXISTS "${_bypass_hidden_stamp}")
 endif()
 
 juce_add_plugin(SomethingForTheMixBuss
-    COMPANY_NAME                    "Ystu"
-    BUNDLE_ID                       "com.ystu.somethingforthemixbuss"
-    PLUGIN_MANUFACTURER_CODE        Ystu
+    COMPANY_NAME                    "Oranzil"
+    BUNDLE_ID                       "com.oranzil.somethingforthemixbuss"
+    PLUGIN_MANUFACTURER_CODE        Ornz
     PLUGIN_CODE                     Sftm
     FORMATS                         AU VST3
     PRODUCT_NAME                    "Something For The Mix Buss"
