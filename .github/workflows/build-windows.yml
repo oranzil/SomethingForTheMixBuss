@@ -1,0 +1,31 @@
+name: Build VST3 (Windows)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache JUCE
+        uses: actions/cache@v4
+        with:
+          path: build/_deps
+          key: juce-8.0.7
+
+      - name: Configure
+        run: cmake -B build -G "Ninja Multi-Config"
+
+      - name: Build
+        run: cmake --build build --config Release --target SomethingForTheMixBuss_VST3 -j
+
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: SomethingForTheMixBuss-VST3-Windows
+          path: build/SomethingForTheMixBuss_artefacts/Release/VST3/
