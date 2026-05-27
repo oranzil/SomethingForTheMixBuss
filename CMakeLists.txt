@@ -43,6 +43,10 @@ juce_add_plugin(SomethingForTheMixBuss
     COPY_PLUGIN_AFTER_BUILD         TRUE
 )
 
+juce_add_binary_data(SomethingForTheMixBussBinaryData SOURCES
+    Resources/cookie.png
+)
+
 target_sources(SomethingForTheMixBuss PRIVATE
     Source/PluginProcessor.cpp
 )
@@ -56,6 +60,7 @@ target_compile_definitions(SomethingForTheMixBuss PUBLIC
 )
 
 target_link_libraries(SomethingForTheMixBuss PRIVATE
+    SomethingForTheMixBussBinaryData
     juce::juce_audio_utils
     juce::juce_audio_plugin_client
     juce::juce_recommended_config_flags

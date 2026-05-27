@@ -1,4 +1,5 @@
 #include "PluginProcessor.h"
+#include <BinaryData.h>
 
 SomethingForTheMixBussProcessor::SomethingForTheMixBussProcessor()
     : AudioProcessor(BusesProperties()
@@ -61,15 +62,27 @@ void SomethingForTheMixBussProcessor::processBlock(juce::AudioBuffer<float>& buf
     }
 }
 
-// Minimal blank editor — exists only to suppress the host's generic parameter view.
-// No controls: this plugin has a fixed sound and nothing to adjust.
+// Image credit: "Choco chip cookie" by Bob Smith (brainloc), CC BY 2.5
+// https://commons.wikimedia.org/wiki/File:Choco_chip_cookie.png
 struct SomethingForTheMixBussEditor : public juce::AudioProcessorEditor
 {
     explicit SomethingForTheMixBussEditor (SomethingForTheMixBussProcessor& p)
-        : AudioProcessorEditor (p) { setSize (300, 80); }
+        : AudioProcessorEditor (p)
+    {
+        cookieImage = juce::ImageCache::getFromMemory (
+            BinaryData::cookie_png, BinaryData::cookie_pngSize);
+        setSize (400, 278);
+    }
 
-    void paint (juce::Graphics& g) override { g.fillAll (juce::Colour (0xff1a1a1a)); }
+    void paint (juce::Graphics& g) override
+    {
+        g.drawImage (cookieImage, getLocalBounds().toFloat(),
+                     juce::RectanglePlacement::stretchToFit);
+    }
+
     void resized() override {}
+
+    juce::Image cookieImage;
 };
 
 juce::AudioProcessorEditor* SomethingForTheMixBussProcessor::createEditor()
