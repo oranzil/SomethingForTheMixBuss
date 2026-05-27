@@ -15,7 +15,7 @@ public:
     bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
-    bool hasEditor() const override;
+    bool hasEditor() const override                     { return true; }
     juce::AudioProcessorEditor* createEditor() override;
 
     bool acceptsMidi() const override;

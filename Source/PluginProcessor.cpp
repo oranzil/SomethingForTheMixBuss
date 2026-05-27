@@ -61,8 +61,21 @@ void SomethingForTheMixBussProcessor::processBlock(juce::AudioBuffer<float>& buf
     }
 }
 
-bool SomethingForTheMixBussProcessor::hasEditor() const                    { return false; }
-juce::AudioProcessorEditor* SomethingForTheMixBussProcessor::createEditor() { return nullptr; }
+// Minimal blank editor — exists only to suppress the host's generic parameter view.
+// No controls: this plugin has a fixed sound and nothing to adjust.
+struct SomethingForTheMixBussEditor : public juce::AudioProcessorEditor
+{
+    explicit SomethingForTheMixBussEditor (SomethingForTheMixBussProcessor& p)
+        : AudioProcessorEditor (p) { setSize (300, 80); }
+
+    void paint (juce::Graphics& g) override { g.fillAll (juce::Colour (0xff1a1a1a)); }
+    void resized() override {}
+};
+
+juce::AudioProcessorEditor* SomethingForTheMixBussProcessor::createEditor()
+{
+    return new SomethingForTheMixBussEditor (*this);
+}
 
 bool SomethingForTheMixBussProcessor::acceptsMidi() const                  { return false; }
 bool SomethingForTheMixBussProcessor::producesMidi() const                 { return false; }
