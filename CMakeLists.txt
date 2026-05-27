@@ -14,6 +14,21 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(JUCE)
 
+# Patch JUCE: mark the auto-generated VST3 bypass parameter as kIsHidden so
+# hosts don't show it as a visible slider in their generic parameter UI.
+FetchContent_GetProperties(JUCE SOURCE_DIR _juce_src)
+set(_vst3_wrapper "${_juce_src}/modules/juce_audio_plugin_client/juce_audio_plugin_client_VST3.cpp")
+set(_bypass_hidden_stamp "${CMAKE_BINARY_DIR}/bypass_hidden.stamp")
+if(NOT EXISTS "${_bypass_hidden_stamp}")
+    file(READ "${_vst3_wrapper}" _vst3_src)
+    string(REPLACE
+        "info.flags |= Vst::ParameterInfo::kIsBypass;"
+        "info.flags |= Vst::ParameterInfo::kIsBypass | Vst::ParameterInfo::kIsHidden;"
+        _vst3_src_patched "${_vst3_src}")
+    file(WRITE "${_vst3_wrapper}" "${_vst3_src_patched}")
+    file(TOUCH "${_bypass_hidden_stamp}")
+endif()
+
 juce_add_plugin(SomethingForTheMixBuss
     COMPANY_NAME                    "Ystu"
     BUNDLE_ID                       "com.ystu.somethingforthemixbuss"
